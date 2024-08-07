@@ -30,6 +30,6 @@ namespace DiarioPagosApp.Models
 
         [EmailAddress(ErrorMessage = "El correo no es valido")]
         [Display(Name = "Correo")]
-        public int UserEmail { get; set; }
+        public string CustomerEmail { get; set; }
     }
 }

@@ -1,0 +1,49 @@
+﻿@model IEnumerable<Customer>
+@{
+    ViewData["Title"] = "Clientes";
+
+    string StringToUpper(string value)
+    {
+        return value.ToUpper();
+    }
+}
+
+<div class="text-center mb-3">
+    <h1>Lista de clientes</h1>
+</div>
+
+
+<a asp-action="CreateCustomer" class="btn btn-primary mb-5">Crear cliente</a>
+
+<table class="table table-hover">
+    <thead>
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">Nombre</th>
+            <th scope="col">Apellido</th>
+            <th scope="col">Direccion</th>
+            <th scope="col">Numero de telefono</th>
+            <th scope="col">Correo</th>
+            <th scope="col">Accion</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var customer in Model)
+        {
+            <tr>
+                <th scope="row">@customer.CustomerId</th>
+                <td>@customer.FirstName</td>
+                <td>@customer.LastName</td>
+                <td>@customer.Address</td>
+                <td>@customer.PhoneNumber</td>
+                <td>@customer.CustomerEmail</td>
+                <td>
+                    <a asp-action="EditCustomer" asp-route-id="@customer.CustomerId" class="btn btn-secondary">Editar</a>
+                    <a asp-action="Delete" asp-route-id="@customer.CustomerId" class="btn btn-danger">Eliminar</a>
+                </td>
+
+            </tr>
+        }
+        
+    </tbody>
+</table>

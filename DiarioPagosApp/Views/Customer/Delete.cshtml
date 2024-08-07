@@ -1,0 +1,15 @@
+﻿@model Customer
+@{
+    ViewData["Title"] = "Borrar Cliente";
+}
+<div class="text-center">
+    <h3>¿Estas seguro que deseas eliminar el cliente @Model.FirstName @Model.LastName</h3>
+</div>
+
+<form asp-action="DeleteCustomer">
+    <input type="hidden" asp-for="CustomerId" />
+    <div class="d-flex justify-content-center">
+        <button type="submit" class="btn btn-danger mb-3">Borrar</button>
+        <a asp-action="Index" class="btn btn-dark mb-3">Cancelar</a>
+    </div>
+</form>
