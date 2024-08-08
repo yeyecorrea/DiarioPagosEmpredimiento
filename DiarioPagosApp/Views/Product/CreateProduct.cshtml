@@ -1,0 +1,26 @@
+﻿@model Product
+@{
+    ViewData["Tilte"] = "Crear Productos";
+}
+<div class="container">
+    <div class="row justify-content-center align-items-center vh-100">
+        <div class="col-md-8 col-lg-8">
+            <div class="text-center mb-2">
+                <h1>Creacion de Porductos</h1>
+            </div>
+            <form asp-action="CreateProduct" class="border p-5 bg-light rounded">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <!--Campo ProductNmae-->
+                <div class="form-group mb-3">
+                    <label asp-for="ProductName" class="form-label"></label>
+                    <input asp-for="ProductName" type="text" class="form-control" />
+                    <span asp-validation-for="ProductName" class="text-danger"></span>
+                </div>
+                <div class="d-flex justify-content-center">
+                    <button type="submit" class="btn btn-primary">Crear</button>
+                    <a asp-action="Index" class="btn btn-dark ml-5 ">Cancelar</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

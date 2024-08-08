@@ -13,6 +13,10 @@ builder.Services.AddControllersWithViews();
 //Customer
 builder.Services.AddTransient<IRepositoryCustomer, RepositoryCustomer>();
 
+
+//Product
+builder.Services.AddTransient<IRepositoryProduct, RepositoryProduct>();
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

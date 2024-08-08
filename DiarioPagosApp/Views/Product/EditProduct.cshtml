@@ -1,0 +1,29 @@
+﻿@model Product
+@{
+    ViewData["Tilte"] = "Editar Producto";
+}
+
+<div class="text-center">
+    Editar Producto
+</div>
+
+<div class="container">
+    <div class="row justify-content-center align-items-center vh-100">
+        <div class="col-md-8 col-lg-8">
+            <form asp-action="EditProduct" class="border p-5 bg-light rounded">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <input type="hidden" asp-for="ProductId" />
+                <!--Campo ProductName-->
+                <div class="form-group mb-3">
+                    <label asp-for="ProductName" class="form-label"></label>
+                    <input asp-for="ProductName" type="text" class="form-control" />
+                    <span asp-validation-for="ProductName" class="text-danger"></span>
+                </div>
+                <div class="d-flex justify-content-center">
+                    <button type="submit" class="btn btn-primary">Crear</button>
+                    <a asp-action="Index" class="btn btn-dark ml-5 ">Cancelar</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
