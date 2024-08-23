@@ -1,0 +1,54 @@
+﻿@model SaleDetailViewModel
+
+@{
+    ViewData["Title"] = "Detalle de Venta";
+}
+
+
+
+<h1>Detalle de ventas</h1>
+
+<div class="container">
+    <div class="row justify-content-center align-items-center vh-100">
+        <div class="col-md-8 col-lg-8">
+            <div class="text-center">
+                <h1>Creacion de Ventas</h1>
+            </div>
+            <form asp-action="CreateSaleDetail" class="border p-5 bg-light rounded">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <!--Campo CustomerId-->
+                <div class="form-group mb-3">
+                    <label asp-for="ProductId" class="form-label"></label>
+                    <select asp-for="ProductId" asp-items="Model.Products"></select>
+                    <span asp-validation-for="ProductId" class="text-danger"></span>
+                </div>
+                <!--Campo PaymentStatusId-->
+                <div class="form-group mb-3">
+                    <label asp-for="Amount" class="form-label"></label>
+                    <input asp-for="Amount" class="form-control" />
+                    <span asp-validation-for="Amount" class="text-danger"></span>
+                </div>
+                <div class="form-group mb-3">
+
+                    <input type="hidden" asp-for="SaleId" class="form-control" />
+                </div>
+                <!--Campo TotalSale-->
+                <div class="form-group mb-3">
+                    <label asp-for="Price" class="form-label"></label>
+                    <input asp-for="Price" class="form-control" />
+                    <span asp-validation-for="Price" class="text-danger"></span>
+                </div>
+                <div class="d-flex justify-content-center">
+                    <button type="submit" class="btn btn-primary">Crear</button>
+                    <a asp-action="Index" class="btn btn-dark ml-5 ">Cancelar</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!--Renderisamos scripts en layaut secccion scripts -->
+@section Scripts {
+    <partial name="_ValidationScriptsPartial"></partial>
+
+}

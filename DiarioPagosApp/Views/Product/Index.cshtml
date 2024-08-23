@@ -3,33 +3,48 @@
     ViewData["Title"] = "Listado de productos";
 }
 
-<div class="text-center">
-    <h1>Listado de Productos</h1>
-</div>
+@if (Model == null || !Model.Any())
+{
+    <div class="container">
+        <div class="row">
+            <div class="text-center mb-5">
+                <h1>No hay Datos para Mostrar</h1>
+                <a asp-action="CreateProduct" class="btn btn-primary mb-5">Crear Producto</a>
+            </div>
+        </div>
+    </div>
+}
+else
+{
+    <div class="text-center">
+        <h1>Listado de Productos</h1>
+    </div>
 
-<a asp-action="CreateProduct" class="btn btn-primary mb-5">Crear Producto</a>
+    <a asp-action="CreateProduct" class="btn btn-primary mb-5">Crear Producto</a>
 
-<table class="table table-hover">
-    <thead>
-        <tr>
-            <th scope="col">#</th>
-            <th scope="col">Nombre</th>
-            <th scope="col">Accion</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var product in Model)
-        {
+    <table class="table table-hover">
+        <thead>
             <tr>
-                <th scope="row">@product.ProductId</th>
-                <td>@product.ProductName</td>
-                <td>
-                    <a asp-action="EditProduct" asp-route-id="@product.ProductId" class="btn btn-secondary">Editar</a>
-                    <a asp-action="Delete" asp-route-id="@product.ProductId" class="btn btn-danger">Eliminar</a>
-                </td>
-
+                <th scope="col">#</th>
+                <th scope="col">Nombre</th>
+                <th scope="col">Accion</th>
             </tr>
-        }
+        </thead>
+        <tbody>
+            @foreach (var product in Model)
+            {
+                <tr>
+                    <th scope="row">@product.ProductId</th>
+                    <td>@product.ProductName</td>
+                    <td>
+                        <a asp-action="EditProduct" asp-route-id="@product.ProductId" class="btn btn-secondary">Editar</a>
+                        <a asp-action="Delete" asp-route-id="@product.ProductId" class="btn btn-danger">Eliminar</a>
+                    </td>
 
-    </tbody>
-</table>
+                </tr>
+            }
+
+        </tbody>
+    </table>
+
+}

@@ -1,0 +1,51 @@
+﻿@model UserRegistrationViewModel
+@{
+    ViewData["Title"] = "Registro Usario";
+}
+
+<div class="container">
+    <div class="row justify-content-center align-items-center vh-70">
+        <div class="col-md-8 col-lg-8">
+            <div class="text-center">
+                <h1>Registro</h1>
+            </div>
+            <form asp-action="UserRegistration" class="border p-5 bg-light rounded">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <!--Campo DateOfSale-->
+                <div class="form-group mb-3">
+                    <label asp-for="FirstName" class="form-label"></label>
+                    <input asp-for="FirstName" class="form-control" />
+                    <span asp-validation-for="FirstName" class="text-danger"></span>
+                </div>
+                <!--Campo TotalSale-->
+                <div class="form-group mb-3">
+                    <label asp-for="LastName" class="form-label"></label>
+                    <input asp-for="LastName" class="form-control" />
+                    <span asp-validation-for="LastName" class="text-danger"></span>
+                </div>
+                <!--Campo TotalSale-->
+                <div class="form-group mb-3">
+                    <label asp-for="UserEmail" class="form-label"></label>
+                    <input asp-for="UserEmail" class="form-control" />
+                    <span asp-validation-for="UserEmail" class="text-danger"></span>
+                </div>
+                <!--Campo TotalSale-->
+                <div class="form-group mb-3">
+                    <label asp-for="PassWord" class="form-label"></label>
+                    <input asp-for="PassWord" class="form-control" />
+                    <span asp-validation-for="PassWord" class="text-danger"></span>
+                </div>
+                <div class="d-flex justify-content-center">
+                    <button type="submit" class="btn btn-primary">Crear</button>
+                    <a class="btn btn-success" asp-action="UserLogin">Deseo Iniciar Sesion</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!--Renderisamos scripts en layaut secccion scripts -->
+@section Scripts {
+    <partial name="_ValidationScriptsPartial"></partial>
+
+}

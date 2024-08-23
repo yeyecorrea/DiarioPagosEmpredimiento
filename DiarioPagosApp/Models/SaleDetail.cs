@@ -8,9 +8,6 @@ namespace DiarioPagosApp.Models
     public class SaleDetail
     {
         public int SalesDetailId { get; set; }
-        [Required]
-        [Display(Name = "Venta")]
-        public int SaleId { get; set; }
 
         [Required]
         [Display(Name = "Producto")]
@@ -23,6 +20,9 @@ namespace DiarioPagosApp.Models
         [Required]
         [Display(Name = "Precio")]
         public decimal Price { get; set; }
+
+        // Referencia tabla
+        public string ProductName { get; set; }
 
     }
 }

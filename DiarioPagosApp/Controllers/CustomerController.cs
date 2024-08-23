@@ -41,7 +41,7 @@ namespace DiarioPagosApp.Controllers
             // validamos el modelo
             if (!ModelState.IsValid)
             {
-                return View();
+                return RedirectToAction("ModelError", "NotFound");
             }
 
             // validamos datos duplicados
@@ -66,7 +66,7 @@ namespace DiarioPagosApp.Controllers
             var CustomerId = await _repositoryCustomer.ListCustomerForId(Id);
             if (CustomerId is null)
             {
-                return RedirectToAction("");
+                return RedirectToAction("NotFoundError", "NotFound");
             }
 
             return View(CustomerId);
@@ -84,7 +84,7 @@ namespace DiarioPagosApp.Controllers
             var CustomerId = await _repositoryCustomer.ListCustomerForId(customer.CustomerId);
             if (CustomerId is null)
             {
-                return RedirectToAction("");
+                return RedirectToAction("NotFoundError", "NotFound");
             }
 
             // validamos datos duplicados
@@ -110,7 +110,7 @@ namespace DiarioPagosApp.Controllers
             var CustomerId = await _repositoryCustomer.ListCustomerForId(Id);
             if (CustomerId is null)
             {
-                return RedirectToAction("");
+                return RedirectToAction("NotFoundError", "NotFound");
             }
 
             return View(CustomerId);
@@ -126,7 +126,7 @@ namespace DiarioPagosApp.Controllers
             var Customer = await _repositoryCustomer.ListCustomerForId(CustomerId);
             if (Customer is null)
             {
-                return RedirectToAction("");
+                return RedirectToAction("NotFoundError", "NotFound");
             }
 
             await _repositoryCustomer.DeleteCustomer(CustomerId);

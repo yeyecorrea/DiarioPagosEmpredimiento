@@ -1,0 +1,53 @@
+﻿@model SaleCreationViewModel
+
+@{
+    ViewData["Title"] = "Crear Ventas";
+}
+
+<div class="container">
+    <div class="row justify-content-center align-items-center vh-100">
+        <div class="col-md-8 col-lg-8">
+            <div class="text-center">
+                <h1>Creacion de Ventas</h1>
+            </div>
+            <form asp-action="CreateSale" class="border p-5 bg-light rounded">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <!--Campo CustomerId-->
+                <div class="form-group mb-3">
+                    <label asp-for="CustomerId" class="form-label"></label>
+                    <select class="form-select" asp-for="CustomerId" asp-items="Model.Customers"></select>
+                    <span asp-validation-for="CustomerId" class="text-danger"></span>
+                </div>
+                <!--Campo DateOfSale-->
+                <div class="form-group mb-3">
+                    <label asp-for="DateOfSale" class="form-label"></label>
+                    <input asp-for="DateOfSale" class="form-control" />
+                    <span asp-validation-for="DateOfSale" class="text-danger"></span>
+                </div>
+                
+                <!--Campo PaymentStatusId-->
+                 <div class="form-group mb-3">
+                    <label asp-for="PaymentStatusId" class="form-label"></label>
+                    <select class="form-select" asp-for="PaymentStatusId" asp-items="Model.PaymentStatus"></select>
+                    <span asp-validation-for="PaymentStatusId" class="text-danger"></span>
+                </div>
+                <!--Campo TotalSale-->
+                <div class="form-group mb-3">
+                    <label asp-for="TotalSale" class="form-label"></label>
+                    <input asp-for="TotalSale" class="form-control" />
+                    <span asp-validation-for="TotalSale" class="text-danger"></span>
+                </div>
+                <div class="d-flex justify-content-center">
+                    <button type="submit" class="btn btn-primary">Crear</button>
+                    <a asp-action="Index" class="btn btn-dark ml-5 ">Cancelar</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!--Renderisamos scripts en layaut secccion scripts -->
+@section Scripts {
+    <partial name="_ValidationScriptsPartial"></partial>
+
+}

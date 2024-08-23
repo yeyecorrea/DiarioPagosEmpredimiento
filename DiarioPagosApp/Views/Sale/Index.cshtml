@@ -1,0 +1,60 @@
+﻿@model IEnumerable<Sale>
+
+@{
+    ViewData["Title"] = "Lista de Ventas";
+}
+
+<div class="text-center">
+    <h1>
+        <i class="bi bi-cart-check-fill"></i>
+        Listado de Ventas
+    </h1>
+</div>
+
+<a asp-action="CreateSale" class="btn btn-primary mb-5">
+    <i class="bi bi-cloud-plus-fill"></i>
+    Crear Ventas
+</a>
+
+<div class="container">
+    <div class="row">
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col"><i class="bi bi-people-fill"></i> Cliente</th>
+                    <th scope="col"><i class="bi bi-person-fill"></i> Usuario</th>
+                    <th scope="col"><i class="bi bi-calendar-check-fill"></i> Fecha de Venta</th>
+                    <th scope="col"><i class="bi bi-check-all"></i> Estado de Pago</th>
+                    <th scope="col"><i class="bi bi-cash-stack"></i> Valor Total</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var sale in Model)
+                {
+                    <tr>
+                        <th scope="row">@sale.SaleId</th>
+                        <td>@sale.CUSTOMER_FIRST_NAME</td>
+                        <td>@sale.USER_FIRST_NAME</td>
+                        <td>@Html.DisplayFor(Model => sale.DateOfSale)</td>
+                        <td>@sale.PaymentStatusId</td>
+                        <td>@sale.TotalSale.ToString("C")</td>
+                        <td style="list-style: none">
+                            <a asp-action="Index" asp-controller="SaleDetails" asp-route-id="@sale.SaleId" class="btn btn-primary">
+                                <i class="bi bi-ticket-detailed-fill"></i>
+                            </a>
+                            <a asp-action="EditProduct" asp-route-id="@sale.SaleId" class="btn btn-secondary">
+                                <i class="bi bi-pencil-fill"></i>
+                            </a>
+                            <a asp-action="Delete" asp-route-id="@sale.SaleId" class="btn btn-danger">
+                                <li class="bi bi-trash-fill"></li>
+                            </a>
+                        </td>
+
+                    </tr>
+                }
+
+            </tbody>
+        </table>
+    </div>
+</div>

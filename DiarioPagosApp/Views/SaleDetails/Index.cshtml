@@ -1,0 +1,34 @@
+﻿@model IEnumerable<SaleDetail>
+@{
+    ViewData["Title"] = "Lista de Ventas";
+}
+
+<div class="text-center">
+    <h1>Detalle de Venta</h1>
+</div>
+
+<a asp-action="Index" asp-controller="Sale" class="btn btn-primary mb-5">Volver</a>
+
+<table class="table table-hover">
+    <thead>
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">Producto</th>
+            <th scope="col">Cantidad</th>
+            <th scope="col">Precio del producto</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var sale in Model)
+        {
+            <tr>
+                <th scope="row">@sale.SalesDetailId</th>
+                <td>@sale.ProductName</td>
+                <td>@sale.Amount</td>
+                <td>@sale.Price</td>
+
+            </tr>
+        }
+
+    </tbody>
+</table>
