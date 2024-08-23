@@ -18,7 +18,6 @@
 <table class="table table-hover">
     <thead>
         <tr>
-            <th scope="col">#</th>
             <th scope="col"><i class="bi bi-people-fill"></i> Nombre</th>
             <th scope="col">Apellido</th>
             <th scope="col"><i class="bi bi-car-front-fill"></i> Direccion</th>
@@ -31,7 +30,6 @@
         @foreach (var customer in Model)
         {
             <tr>
-                <th scope="row">@customer.CustomerId</th>
                 <td>@customer.FirstName</td>
                 <td>@customer.LastName</td>
                 <td>@customer.Address</td>

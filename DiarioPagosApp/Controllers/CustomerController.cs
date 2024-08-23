@@ -3,21 +3,27 @@ using DiarioPagosApp.Models;
 using DiarioPagosApp.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Data.SqlClient;
+using Microsoft.Extensions.Configuration.UserSecrets;
 
 namespace DiarioPagosApp.Controllers
 {
     public class CustomerController : Controller
     {
         private readonly IRepositoryCustomer _repositoryCustomer;
-        
-        public CustomerController(IRepositoryCustomer repositoryCustomer)
+        private readonly IRepositoryUser _repositoryUser;
+
+        public CustomerController(IRepositoryCustomer repositoryCustomer, IRepositoryUser repositoryUser)
         {
             _repositoryCustomer = repositoryCustomer;
+            _repositoryUser = repositoryUser;
         }
 
         public async Task<IActionResult> Index()
         {
-            var listCustomer = await _repositoryCustomer.ListCustomers(); 
+            // Obtenemos el usuario actual, para traer todos sus customers
+            var userId = _repositoryUser.GetUser();
+
+            var listCustomer = await _repositoryCustomer.ListCustomersForUserId(userId); 
             return View(listCustomer);
         }
 
@@ -38,6 +44,12 @@ namespace DiarioPagosApp.Controllers
         [HttpPost]
         public async Task<IActionResult> CreateCustomer(Customer customer)
         {
+            // Obtenemos el usuario actual, para traer todos sus customers
+            var userId = _repositoryUser.GetUser();
+
+            // asignamos el id al modelo
+            customer.UserId = userId;
+
             // validamos el modelo
             if (!ModelState.IsValid)
             {
@@ -45,10 +57,10 @@ namespace DiarioPagosApp.Controllers
             }
 
             // validamos datos duplicados
-            var IsRepeated = await _repositoryCustomer.IsRepeatedCustomer(customer.CustomerEmail, customer.PhoneNumber);
+            var IsRepeated = await _repositoryCustomer.IsRepeatedCustomer(customer.CustomerEmail, userId);
             if (IsRepeated)
             {
-                ModelState.AddModelError(nameof(customer.CustomerEmail) ,$"El dato {customer.CustomerEmail} o {customer.PhoneNumber} ya existen");
+                ModelState.AddModelError(nameof(customer.CustomerEmail) ,$"El dato {customer.CustomerEmail} ya existen");
                 return View(customer);
             }
 
@@ -63,13 +75,15 @@ namespace DiarioPagosApp.Controllers
         /// <returns></returns>
         public async Task<IActionResult> EditCustomer(int Id)
         {
-            var CustomerId = await _repositoryCustomer.ListCustomerForId(Id);
-            if (CustomerId is null)
+            // Obtenemos el usuario actual
+            int userId = _repositoryUser.GetUser();
+            var customerId = await _repositoryCustomer.ListCustomerForId(Id, userId);
+            if (customerId is null)
             {
                 return RedirectToAction("NotFoundError", "NotFound");
             }
 
-            return View(CustomerId);
+            return View(customerId);
         }
 
         /// <summary>
@@ -80,20 +94,17 @@ namespace DiarioPagosApp.Controllers
         [HttpPost]
         public async Task<IActionResult> EditCustomer(Customer customer)
         {
-            
-            var CustomerId = await _repositoryCustomer.ListCustomerForId(customer.CustomerId);
-            if (CustomerId is null)
+            // Obtenemos el usuario actual
+            int userId = _repositoryUser.GetUser();
+
+            var customerId = await _repositoryCustomer.ListCustomerForId(customer.CustomerId, userId);
+            if (customerId is null)
             {
                 return RedirectToAction("NotFoundError", "NotFound");
             }
 
-            // validamos datos duplicados
-            var IsRepeated = await _repositoryCustomer.IsRepeatedCustomer(customer.CustomerEmail, customer.PhoneNumber);
-            if (IsRepeated)
-            {
-                ModelState.AddModelError(nameof(customer.PhoneNumber), $"El dato ya existe");
-                return View(customer);
-            }
+            // Asignamos el userId al campo UserId del modelo customer 
+            customer.UserId = userId;
 
             await _repositoryCustomer.UpdateCustomer(customer);
 
@@ -107,13 +118,16 @@ namespace DiarioPagosApp.Controllers
         /// <returns></returns>
         public async Task<IActionResult> Delete(int Id)
         {
-            var CustomerId = await _repositoryCustomer.ListCustomerForId(Id);
-            if (CustomerId is null)
+            // Obtenemos el usuario actual
+            int userId = _repositoryUser.GetUser();
+
+            var customerId = await _repositoryCustomer.ListCustomerForId(Id, userId);
+            if (customerId is null)
             {
                 return RedirectToAction("NotFoundError", "NotFound");
             }
 
-            return View(CustomerId);
+            return View(customerId);
         }
 
         /// <summary>
@@ -121,10 +135,15 @@ namespace DiarioPagosApp.Controllers
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
+        ///
+        [HttpPost]
         public async Task<IActionResult> DeleteCustomer(int CustomerId)
         {
-            var Customer = await _repositoryCustomer.ListCustomerForId(CustomerId);
-            if (Customer is null)
+            // Obtenemos el usuario actual
+            int userId = _repositoryUser.GetUser();
+
+            var customer = await _repositoryCustomer.ListCustomerForId(CustomerId, userId);
+            if (customer is null)
             {
                 return RedirectToAction("NotFoundError", "NotFound");
             }

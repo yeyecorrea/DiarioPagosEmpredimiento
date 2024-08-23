@@ -18,6 +18,7 @@ namespace DiarioPagosApp.Controllers
         
         }
 
+        [AllowAnonymous]
         public IActionResult UserValidation()
         {
             return View();

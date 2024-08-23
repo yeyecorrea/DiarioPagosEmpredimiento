@@ -1,6 +1,7 @@
 ﻿using Dapper;
 using DiarioPagosApp.Models;
 using Microsoft.Data.SqlClient;
+using System.Security.Claims;
 
 namespace DiarioPagosApp.Services
 {
@@ -22,8 +23,8 @@ namespace DiarioPagosApp.Services
         public async Task CreateCustomer(Customer customer)
         {
             using var connection = new SqlConnection(_connectionString);
-            var id = await connection.QuerySingleAsync<int>(@"INSERT INTO CUSTOMERS (FIRST_NAME, LAST_NAME, ADDRESS, PHONE_NUMBER, CUSTOMER_EMAIL) 
-                                                        VALUES (@FirstName, @LastName, @Address, @PhoneNumber, @CustomerEmail);
+            var id = await connection.QuerySingleAsync<int>(@"INSERT INTO CUSTOMERS (FIRST_NAME, LAST_NAME, ADDRESS, PHONE_NUMBER, CUSTOMER_EMAIL, USERS_ID) 
+                                                        VALUES (@FirstName, @LastName, @Address, @PhoneNumber, @CustomerEmail, @UserId);
                                                         SELECT SCOPE_IDENTITY();", customer);
 
             customer.CustomerId = id;
@@ -33,7 +34,7 @@ namespace DiarioPagosApp.Services
         /// Metodo que trae todos los datos de la tabla 
         /// </summary>
         /// <returns></returns>
-        public async Task<IEnumerable<Customer>> ListCustomers()
+        public async Task<IEnumerable<Customer>> ListCustomersForUserId(int userId)
         {
             using var connection = new SqlConnection(_connectionString);
             return await connection.QueryAsync<Customer>(@"SELECT 
@@ -41,25 +42,26 @@ namespace DiarioPagosApp.Services
                                                            FIRST_NAME AS FirstName, 
                                                            LAST_NAME AS LastName, 
                                                            ADDRESS AS Address, 
-                                                           PHONE_NUMBER AS PhoneNumber, 
-                                                           CUSTOMER_EMAIL AS CustomerEmail FROM CUSTOMERS;");
+                                                           PHONE_NUMBER AS PhoneNumber,
+                                                           CUSTOMER_EMAIL AS CustomerEmail FROM CUSTOMERS
+                                                           WHERE USERS_ID = @UserId;", new { UserId = userId });
         }
 
         /// <summary>
         /// Metodo que trae los datos de la tabla 
         /// </summary>
         /// <returns></returns>
-        public async Task<Customer> ListCustomerForId(int Id)
+        public async Task<Customer> ListCustomerForId(int CustomerId, int userId)
         {
             using var connection = new SqlConnection(_connectionString);
-            return await connection.QueryFirstOrDefaultAsync<Customer>(@"SELECT 
-                                                           CUSTOMERS_ID AS CustomerId, 
+            return await connection.QueryFirstOrDefaultAsync<Customer>(@"SELECT  
+                                                           CUSTOMERS_ID AS CustomerId,
                                                            FIRST_NAME AS FirstName, 
                                                            LAST_NAME AS LastName, 
                                                            ADDRESS AS Address, 
                                                            PHONE_NUMBER AS PhoneNumber, 
                                                            CUSTOMER_EMAIL AS CustomerEmail FROM CUSTOMERS
-                                                           WHERE CUSTOMERS_ID = @CustomerId;", new { CustomerId = Id});
+                                                           WHERE CUSTOMERS_ID = @CustomerId AND USERS_ID = @UserId ;", new { CustomerId = CustomerId, UserId = userId});
         }
 
         /// <summary>
@@ -67,12 +69,12 @@ namespace DiarioPagosApp.Services
         /// </summary>
         /// <param name="name">Parametro por el cual se hara la busqueda</param>
         /// <returns>Retorna 1 si existe</returns>
-        public async Task<bool> IsRepeatedCustomer(string email, string number)
+        public async Task<bool> IsRepeatedCustomer(string email, int userId)
         {
             using var connection = new SqlConnection(_connectionString);
             var IsRepeated = await connection.QueryFirstOrDefaultAsync<int>(@"SELECT 1 FROM CUSTOMERS 
                                                                               WHERE CUSTOMER_EMAIL = @CustomerEmail 
-                                                                              OR PHONE_NUMBER = @PhoneNumber", new { CustomerEmail = email, PhoneNumber = number });
+                                                                              AND USERS_ID = @UserId", new { CustomerEmail = email, UserId = userId });
 
             return IsRepeated == 1;
         }

@@ -9,6 +9,7 @@ namespace DiarioPagosApp.Models
     {
 
         public int CustomerId { get; set; }
+
         [Required(ErrorMessage = "El campo {0} es obligatorio")]
         [StringLength(maximumLength: 50, MinimumLength = 2, ErrorMessage = ("El campo debe ser de minimo 2 caracteres y como maximo 50"))]
         [Display(Name = "Nombre")]
@@ -31,5 +32,9 @@ namespace DiarioPagosApp.Models
         [EmailAddress(ErrorMessage = "El correo no es valido")]
         [Display(Name = "Correo")]
         public string CustomerEmail { get; set; }
+
+        [Required]
+        [Display(Name = "Usuario")]
+        public int UserId { get; set; }
     }
 }

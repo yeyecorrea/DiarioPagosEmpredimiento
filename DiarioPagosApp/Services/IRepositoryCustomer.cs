@@ -6,9 +6,9 @@ namespace DiarioPagosApp.Services
     {
         Task CreateCustomer(Customer customer);
         Task DeleteCustomer(int Id);
-        Task<bool> IsRepeatedCustomer(string email, string number);
-        Task<Customer> ListCustomerForId(int Id);
-        Task<IEnumerable<Customer>> ListCustomers();
+        Task<bool> IsRepeatedCustomer(string email, int userId);
+        Task<Customer> ListCustomerForId(int Id, int userId);
+        Task<IEnumerable<Customer>> ListCustomersForUserId(int userId);
         Task UpdateCustomer(Customer customer);
     }
 }

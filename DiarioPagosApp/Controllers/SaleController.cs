@@ -84,7 +84,10 @@ namespace DiarioPagosApp.Controllers
         /// <returns></returns>
         public async Task<IEnumerable<SelectListItem>> GetCustomers()
         {
-            var customersList = await _repositoryCustomer.ListCustomers();
+            // Obtenemos el usuario actual
+            int userId = _repositoryUser.GetUser();
+
+            var customersList = await _repositoryCustomer.ListCustomersForUserId(userId);
             return customersList.Select(c => new SelectListItem(c.FirstName,c.CustomerId.ToString()));
         }
 
