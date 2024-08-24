@@ -9,10 +9,13 @@ namespace DiarioPagosApp.Controllers
     {
         private readonly IRepositoryProduct _repositoryProduct;
         private readonly IRepositorySaleDetail _repositorySaleDetail;
-        public SaleDetailsController(IRepositoryProduct repositoryProduct, IRepositorySaleDetail repositorySaleDetail)
+        private readonly IRepositoryUser _repositoryUser;
+
+        public SaleDetailsController(IRepositoryProduct repositoryProduct, IRepositorySaleDetail repositorySaleDetail, IRepositoryUser repositoryUser)
         {
             _repositoryProduct = repositoryProduct;
             _repositorySaleDetail = repositorySaleDetail;
+            _repositoryUser = repositoryUser;
         }
 
         public async Task<IActionResult> Index(int Id)
@@ -63,7 +66,10 @@ namespace DiarioPagosApp.Controllers
         /// <returns></returns>
         public async Task<IEnumerable<SelectListItem>> GetProducts()
         {
-            var paymetStatusList = await _repositoryProduct.ListProducts();
+            // Obtenemos el usuario actual
+            var userId = _repositoryUser.GetUser();
+
+            var paymetStatusList = await _repositoryProduct.ListProductsForUserId(userId);
             return paymetStatusList.Select(p => new SelectListItem(p.ProductName, p.ProductId.ToString()));
         }
     }

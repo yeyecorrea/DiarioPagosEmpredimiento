@@ -21,7 +21,7 @@ namespace DiarioPagosApp.Services
         public async Task CreateProduct(Product product)
         {
             using var connection = new SqlConnection(_connectionString);
-            var id = await connection.QuerySingleAsync<int>(@"INSERT INTO PRODUCTS (PRODUCT_NAME) VALUES (@ProductName);
+            var id = await connection.QuerySingleAsync<int>(@"INSERT INTO PRODUCTS (PRODUCT_NAME, USERS_ID) VALUES (@ProductName, @UserId);
                                                         SELECT SCOPE_IDENTITY();", product);
 
             product.ProductId = id;
@@ -31,23 +31,24 @@ namespace DiarioPagosApp.Services
         /// Metodo que trae todos los datos de la tabla 
         /// </summary>
         /// <returns></returns>
-        public async Task<IEnumerable<Product>> ListProducts()
+        public async Task<IEnumerable<Product>> ListProductsForUserId(int userId)
         {
             using var connection = new SqlConnection(_connectionString);
-            return await connection.QueryAsync<Product>(@"SELECT PRODUCT_NAME as ProductName, PRODUCT_ID as ProductId FROM PRODUCTS;");
+            return await connection.QueryAsync<Product>(@"SELECT PRODUCT_NAME as ProductName, PRODUCT_ID as ProductId FROM PRODUCTS WHERE USERS_ID = @UserId;", new {UserId = userId});
         }
 
         /// <summary>
         /// Metodo que trae los datos de la tabla 
         /// </summary>
         /// <returns></returns>
-        public async Task<Product> ListProductForId(int Id)
+        public async Task<Product> ListProductForId(int Id, int userId)
         {
             using var connection = new SqlConnection(_connectionString);
-            return await connection.QueryFirstOrDefaultAsync<Product>(@"SELECT 
+            return await connection.QueryFirstOrDefaultAsync<Product>(@"SELECT
+                                                           USERS_ID AS UserId,
                                                            PRODUCT_ID AS ProductId,
                                                            PRODUCT_NAME AS ProductName FROM PRODUCTS
-                                                           WHERE PRODUCT_ID = @ProductId;", new { ProductId = Id });
+                                                           WHERE PRODUCT_ID = @ProductId AND USERS_ID = @UserId;", new { ProductId = Id, UserId = userId  });
         }
 
         /// <summary>
@@ -55,11 +56,11 @@ namespace DiarioPagosApp.Services
         /// </summary>
         /// <param name="name">Parametro por el cual se hara la busqueda</param>
         /// <returns>Retorna 1 si existe</returns>
-        public async Task<bool> IsRepeatedProduct(string name)
+        public async Task<bool> IsRepeatedProduct(string name, int userId)
         {
             using var connection = new SqlConnection(_connectionString);
             var IsRepeated = await connection.QueryFirstOrDefaultAsync<int>(@"SELECT 1 FROM PRODUCTS 
-                                                                              WHERE PRODUCT_NAME = @ProductName", new { ProductName = name });
+                                                                              WHERE PRODUCT_NAME = @ProductName AND USERS_ID = @UserId", new { ProductName = name, UserId = userId });
 
             return IsRepeated == 1;
         }
@@ -81,10 +82,10 @@ namespace DiarioPagosApp.Services
         /// </summary>
         /// <param name="Id"></param>
         /// <returns></returns>
-        public async Task DeleteProduct(int Id)
+        public async Task DeleteProduct(int Id, int userId)
         {
             using var connection = new SqlConnection(_connectionString);
-            await connection.ExecuteAsync(@"DELETE PRODUCTS WHERE PRODUCT_ID = @ProductId", new { ProductId = Id });
+            await connection.ExecuteAsync(@"DELETE PRODUCTS WHERE PRODUCT_ID = @ProductId AND USERS_ID = @UserId", new { ProductId = Id , UserId = userId });
         }
     }
 }

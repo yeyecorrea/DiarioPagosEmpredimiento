@@ -13,5 +13,9 @@ namespace DiarioPagosApp.Models
         [StringLength(maximumLength: 50, MinimumLength = 2, ErrorMessage = ("El campo debe ser de minimo 2 caracteres y como maximo 50"))]
         [Display(Name = "Nombre del Producto")]
         public string ProductName { get; set; }
+
+        [Required]
+        [Display(Name = "Usuario")]
+        public int UserId { get; set; }
     }
 }
