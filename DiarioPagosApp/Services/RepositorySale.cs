@@ -36,7 +36,6 @@ namespace DiarioPagosApp.Services
             return await connection.QueryAsync<Sale>(@"SELECT 
                                                             S.SALE_ID AS SaleId, 
                                                             C.FIRST_NAME AS CUSTOMER_FIRST_NAME, 
-                                                            U.FIRST_NAME AS USER_FIRST_NAME, 
                                                             S.DATE_OF_SALE AS DateOfSale, 
                                                             PS.STATUS AS PaymentStatusId, 
                                                             S.TOTAL_SALE AS TotalSale

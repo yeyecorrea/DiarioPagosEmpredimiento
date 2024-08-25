@@ -31,6 +31,7 @@ namespace DiarioPagosApp.Controllers
         {
             var userId =  _repositoryUser.GetUser();
             var sales = await _repositorySale.ListSales(userId);
+
             return View(sales);
         }
 
@@ -44,6 +45,7 @@ namespace DiarioPagosApp.Controllers
         {
             // Creamos la instancia del modelo
             var modelo = new SaleCreationViewModel();
+
             // Llamamos al metodo que llena la lista de customers
             modelo.Customers = await GetCustomers();
             modelo.PaymentStatus = await GetPaymentStatus();
@@ -54,25 +56,24 @@ namespace DiarioPagosApp.Controllers
         /// <summary>
         /// Metodo que ejecuta la cion del formulario
         /// </summary>
-        /// <param name="saleCreationViewModel"></param>
+        /// <param name="model"></param>
         /// <param name="numero"></param>
         /// <returns></returns>
         [HttpPost]
-        public async Task<IActionResult> CreateSale( SaleCreationViewModel saleCreationViewModel)
+        public async Task<IActionResult> CreateSale(SaleCreationViewModel model)
         {
+            var userId = _repositoryUser.GetUser();
+            model.UserId = userId;
+
             if (!ModelState.IsValid)
             {
-                return View(saleCreationViewModel);
+                return RedirectToAction("ModelError", "NotFound");
             }
-            var userId = _repositoryUser.GetUser();
-            if (userId == 0)
-            {
-                return RedirectToAction("NotFoundError", "NotFoundController");
-            }
-            saleCreationViewModel.UserId = userId;
-            saleCreationViewModel.Customers = await GetCustomers();
-            saleCreationViewModel.PaymentStatus = await GetPaymentStatus();
-            int id = await _repositorySale.CreateSale(saleCreationViewModel);
+
+            model.Customers = await GetCustomers();
+            model.PaymentStatus = await GetPaymentStatus();
+
+            int id = await _repositorySale.CreateSale(model);
             // Redireccionamos al controlador SaleDetails
             return RedirectToAction("CreateSaleDetail", "SaleDetails", new { SaleId = id });
 

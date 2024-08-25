@@ -9,7 +9,7 @@
         <div class="row">
             <div class="text-center mb-5">
                 <h1>No hay Datos para Mostrar</h1>
-                <a asp-action="CreateProduct" class="btn btn-primary mb-5">Crear Producto</a>
+                <a asp-action="CreateProduct" class="btn btn-primary mb-5"><i class="bi bi-cloud-plus-fill"></i> Crear Producto</a>
             </div>
         </div>
     </div>
@@ -17,15 +17,15 @@
 else
 {
     <div class="text-center">
-        <h1>Listado de Productos</h1>
+        <h1><i class="bi bi-box-seam-fill"></i> Listado de Productos </h1>
     </div>
 
-    <a asp-action="CreateProduct" class="btn btn-primary mb-5">Crear Producto</a>
+    <a asp-action="CreateProduct" class="btn btn-primary mb-5"><i class="bi bi-cloud-plus-fill"></i> Crear Producto</a>
 
     <table class="table table-hover">
         <thead>
             <tr>
-                <th scope="col">Nombre</th>
+                <th scope="col"><i class="bi bi-box-seam-fill"></i> Nombre</th>
                 <th scope="col">Accion</th>
             </tr>
         </thead>
@@ -34,9 +34,13 @@ else
             {
                 <tr>
                     <td>@product.ProductName</td>
-                    <td>
-                        <a asp-action="EditProduct" asp-route-id="@product.ProductId" class="btn btn-secondary">Editar</a>
-                        <a asp-action="Delete" asp-route-id="@product.ProductId" class="btn btn-danger">Eliminar</a>
+                    <td style="list-style: none">
+                        <a asp-action="EditProduct" asp-route-id="@product.ProductId" class="btn btn-secondary">
+                            <i class="bi bi-pencil-fill"></i>
+                        </a>
+                        <a asp-action="Delete" asp-route-id="@product.ProductId" class="btn btn-danger">
+                            <li class="bi bi-trash-fill"></li>
+                        </a>
                     </td>
 
                 </tr>

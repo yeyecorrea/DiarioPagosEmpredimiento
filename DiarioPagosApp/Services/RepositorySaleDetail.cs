@@ -22,8 +22,8 @@ namespace DiarioPagosApp.Services
         public async Task<int> CreateSaleDetail(SaleDetail saleDetail)
         {
             using var connection = new SqlConnection(_connectionString);
-            var id = await connection.QuerySingleAsync<int>(@"INSERT INTO SALES_DETAILS (SALE_ID, PRODUCT_ID, AMOUNT, PRICE) 
-                                                            VALUES (@SaleId, @ProductId, @Amount, @Price);
+            var id = await connection.QuerySingleAsync<int>(@"INSERT INTO SALES_DETAILS (SALE_ID, PRODUCT_ID, AMOUNT, PRICE, USERS_ID) 
+                                                            VALUES (@SaleId, @ProductId, @Amount, @Price, @UserId);
                                                             SELECT SCOPE_IDENTITY();", saleDetail);
 
             return saleDetail.SalesDetailId = id;

@@ -32,10 +32,8 @@ namespace DiarioPagosApp.Models
         [DataType(DataType.Currency)]
         public decimal TotalSale { get; set; }
 
-        // Referencia a tablas
+        //// Referencia a tablas
 
         public string CUSTOMER_FIRST_NAME { get; set; }
-
-        public string USER_FIRST_NAME { get; set; }
     }
 }

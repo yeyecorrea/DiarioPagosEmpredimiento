@@ -1,8 +1,54 @@
-﻿@{
+﻿@using Microsoft.AspNetCore.Identity
+@inject SignInManager<User> SignInManager
+@{
     ViewData["Title"] = "Home Page";
 }
+@if (SignInManager.IsSignedIn(User))
+{
+    <div class="container">
+        <div class="row">
+            <h1 class="text-center mb-5">Bienvenido a @User.Identity.Name</h1>
+            <div class="col">
+                <div class="card">
+                    <div class="card-header">
+                        Informacion de clientes
+                    </div>
+                    <div class="card-body">
+                        <h5 class="card-title">Clientes</h5>
+                        <p class="card-text">Numero de clientes: </p>
+                        <a href="#" class="btn btn-primary">Gestionar</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col">
+                <div class="card">
+                    <div class="card-header">
+                        Informacion de productos
+                    </div>
+                    <div class="card-body">
+                        <h5 class="card-title">Productos</h5>
+                        <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
+                        <a href="#" class="btn btn-primary">Gestionar</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col">
+                <div class="card">
+                    <div class="card-header">
+                        Informacion de Ventas
+                    </div>
+                    <div class="card-body">
+                        <h5 class="card-title">Ventas</h5>
+                        <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
+                        <a href="#" class="btn btn-primary">Gestionar</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
-<div class="text-center">
-    <h1 class="display-4">Bienvenido a Sale</h1>
-    
-</div>
+}
+else
+{
+
+}

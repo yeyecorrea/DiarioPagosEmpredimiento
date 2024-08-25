@@ -21,6 +21,10 @@ namespace DiarioPagosApp.Models
         [Display(Name = "Precio")]
         public decimal Price { get; set; }
 
+        [Required]
+        [Display(Name = "Usuario")]
+        public int UserId { get; set; }
+
         // Referencia tabla
         public string ProductName { get; set; }
 

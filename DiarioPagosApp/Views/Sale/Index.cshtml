@@ -12,8 +12,7 @@
 </div>
 
 <a asp-action="CreateSale" class="btn btn-primary mb-5">
-    <i class="bi bi-cloud-plus-fill"></i>
-    Crear Ventas
+    <i class="bi bi-cloud-plus-fill"></i> Crear Ventas
 </a>
 
 <div class="container">
@@ -21,9 +20,7 @@
         <table class="table table-hover">
             <thead>
                 <tr>
-                    <th scope="col">#</th>
                     <th scope="col"><i class="bi bi-people-fill"></i> Cliente</th>
-                    <th scope="col"><i class="bi bi-person-fill"></i> Usuario</th>
                     <th scope="col"><i class="bi bi-calendar-check-fill"></i> Fecha de Venta</th>
                     <th scope="col"><i class="bi bi-check-all"></i> Estado de Pago</th>
                     <th scope="col"><i class="bi bi-cash-stack"></i> Valor Total</th>
@@ -33,9 +30,7 @@
                 @foreach (var sale in Model)
                 {
                     <tr>
-                        <th scope="row">@sale.SaleId</th>
                         <td>@sale.CUSTOMER_FIRST_NAME</td>
-                        <td>@sale.USER_FIRST_NAME</td>
                         <td>@Html.DisplayFor(Model => sale.DateOfSale)</td>
                         <td>@sale.PaymentStatusId</td>
                         <td>@sale.TotalSale.ToString("C")</td>

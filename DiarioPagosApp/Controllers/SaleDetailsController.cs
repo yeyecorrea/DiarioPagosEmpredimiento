@@ -21,9 +21,9 @@ namespace DiarioPagosApp.Controllers
         public async Task<IActionResult> Index(int Id)
         {
             var saleDetail = await _repositorySaleDetail.ListSalesDetails(Id);
-            if (saleDetail.Count() == 0 || saleDetail.Any())
+            if (saleDetail.Count() == 0)
             {
-                return RedirectToAction();
+                return RedirectToAction("NotFoundError", "NotFound");
             }
 
             return View(saleDetail);
@@ -51,9 +51,14 @@ namespace DiarioPagosApp.Controllers
         [HttpPost]
         public async Task<IActionResult> CreateSaleDetail(SaleDetailViewModel saleDetailViewModel)
         {
+            // Obtenemos el usuario actual
+            var userId = _repositoryUser.GetUser();
+
+            saleDetailViewModel.UserId = userId;
+
             if (!ModelState.IsValid)
             {
-                return RedirectToAction();
+                return RedirectToAction("ModelError", "NotFound");
             }
 
             await _repositorySaleDetail.CreateSaleDetail(saleDetailViewModel);

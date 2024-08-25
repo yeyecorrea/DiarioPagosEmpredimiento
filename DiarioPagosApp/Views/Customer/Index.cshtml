@@ -35,9 +35,13 @@
                 <td>@customer.Address</td>
                 <td>@customer.PhoneNumber</td>
                 <td>@customer.CustomerEmail</td>
-                <td>
-                    <a asp-action="EditCustomer" asp-route-id="@customer.CustomerId" class="btn btn-secondary">Editar</a>
-                    <a asp-action="Delete" asp-route-id="@customer.CustomerId" class="btn btn-danger">Eliminar</a>
+                <td style="list-style: none">
+                    <a asp-action="EditCustomer" asp-route-id="@customer.CustomerId" class="btn btn-secondary">
+                        <i class="bi bi-pencil-fill"></i>
+                    </a>
+                    <a asp-action="Delete" asp-route-id="@customer.CustomerId" class="btn btn-danger">
+                        <li class="bi bi-trash-fill"></li>
+                    </a>
                 </td>
 
             </tr>
